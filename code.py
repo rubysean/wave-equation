@@ -1,7 +1,2 @@
-import sympy as sp
+import numpy as np
 
-x,y, t =  sp.symbols('x y t')
-
-u = sp.Funtion('u')(x,y,t)
-
-pde = sp.Eq(sp.diff(u,x) 
