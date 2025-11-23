@@ -1,3 +1,5 @@
 import sympy as sp
 
-x,y  =  sp.symbols('x y')
+x,y, t =  sp.symbols('x y t')
+
+u = sp.Funtion('u')(x,y,t)
