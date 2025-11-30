@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def I(x,y):
-    return 0.2*np.exp(-((x-2.5)**2/0.1 + (y-2.5)**2/0.1))
+    return 0.2*np.exp(-((x-2.5)**2/0.1 + (y-2.5)**2/0.1))  # gpt: 가우시안 함수?? 를 쓰면 편하다.
 
 def V(x,y):
     return 0
