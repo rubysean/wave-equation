@@ -116,7 +116,7 @@ def anim_2D(X, Y, L, pas_d_images, myzlim = (-0.15, 0.15)):
     return anim
 
 
-anim = anim_2D(X,Y,U,dt,5)
+anim = anim_2D(X,Y,U,5)
 plt.show()
 
 
