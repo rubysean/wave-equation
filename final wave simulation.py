@@ -98,22 +98,20 @@ import matplotlib.animation as animation
 
 
 def anim_2D(X, Y, L, pas_de_temps, pas_d_images, myzlim = (-0.15, 0.15)):
-    fig = plt.figure(figsize = (8, 8), facecolor = "white")
-    ax = fig.add_subplot(111, projection='3d')
-    SX,SY = np.meshgrid(X,Y)
-    surf = ax.plot_surface(SX, SY, L[:,:,0],cmap = plt.cm.RdBu_r)
-    ax.set_zlim(myzlim[0], myzlim[1])
+    fig = plt.figure(figsize = (8, 8), facecolor = "white")     # 스크린 크기
+    ax = fig.add_subplot(111, projection='3d')   # 화면 위치 조정 및 3d 생성
+    SX,SY = np.meshgrid(X,Y)  # 3차원 공간을 만들기 위한 격자 구조 생성  
+    surf = ax.plot_surface(SX, SY, L[:,:,0],cmap = plt.cm.viridis)      # 표면 생성
+    ax.set_zlim(myzlim[0], myzlim[1])   # z 축  고정
     
-    # animation function.  This is called sequentially
-    def update_surf(num):
+    def update_surf(num):  # num 은 funcanimation이 자동적으로 전달
         ax.clear()
-        surf = ax.plot_surface(SX, SY, L[:,:,pas_d_images*num],cmap = plt.cm.viridis)
-        ax.set_zlim(myzlim[0], myzlim[1])
-        plt.tight_layout()
+        surf = ax.plot_surface(SX, SY, L[:,:,pas_d_images*num],cmap = plt.cm.viridis)    # cmap 컬러
+        ax.set_zlim(myzlim[0], myzlim[1])  # 위에거 전부 삭제 되서 다시 설정
+        plt.tight_layout()  # 화면 조정
         return surf
         
-    # call the animator.  blit=True means only re-draw the parts that have changed.
-    anim = animation.FuncAnimation(fig, update_surf, frames = L.shape[2]//pas_d_images, interval = 50, blit = False)
+    anim = animation.FuncAnimation(fig, update_surf, frames = L.shape[2]//pas_d_images, interval = 50)  # animation 호출
 
     return anim
 
