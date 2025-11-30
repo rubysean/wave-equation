@@ -1,10 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def I(x,y):
-    return 0.2*np.exp(-((x-2.5)**2/0.1 + (y-2.5)**2/0.1))  # gpt: 가우시안 함수?? 를 쓰면 편하다.
+def I(x,y):   
+    return 0.2*np.exp(-((x-2.5)**2/0.1 + (y-2.5)**2/0.1))  # gpt: 가우시안 함수?? 를 쓰면 모양이 예쁘게 나온다
 
-def V(x,y):
+def V(x,y):   # 초기 속도
     return 0
   
 def celer(x,y):
