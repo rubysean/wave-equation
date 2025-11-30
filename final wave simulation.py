@@ -97,7 +97,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
 
-def anim_2D(X, Y, L, pas_de_temps, pas_d_images, myzlim = (-0.15, 0.15)):
+def anim_2D(X, Y, L, pas_d_images, myzlim = (-0.15, 0.15)):
     fig = plt.figure(figsize = (8, 8), facecolor = "white")     # 스크린 크기
     ax = fig.add_subplot(111, projection='3d')   # 화면 위치 조정 및 3d 생성
     SX,SY = np.meshgrid(X,Y)  # 3차원 공간을 만들기 위한 격자 구조 생성  
