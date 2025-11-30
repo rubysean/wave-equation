@@ -22,7 +22,7 @@ dy = 0.05
 N_y = int(L_y/dy) 
 Y = np.linspace(0,L_y,N_y+1) 
 
-L_t = 5 
+L_t = 10
 dt = dt = 0.3*min(dx, dy)   
 N_t = int(L_t/dt) 
 T = np.linspace(0,L_t,N_t+1)
@@ -61,7 +61,7 @@ if True:
 
     # t = 1
     #without boundary cond
-    u_np1[1:N_x,1:N_y] = 2*u_n[1:N_x,1:N_y] - (u_n[1:N_x,1:N_y] - 2*dt*V_init[1:N_x,1:N_y]) + Cx2*q[1:N_x, 1: N_y]*(u_n[2:N_x+1, 1: N_y] - 2*u_n[1:N_x, 1: N_y] + u_n[0:N_x-1, 1: N_y]) + Cy2*q[1:N_x, 1: N_y]*(u_n[1:N_x, 2: N_y+1] -2*u_n[1:N_x, 1: N_y] + u_n[1:N_x, 0: N_y-1]) 
+    u_np1[1:N_x,1:N_y] = u_n[1:N_x,1:N_y] + dt*V_init[1:N_x,1:N_y] + 0.5 * Cx2*q[1:N_x, 1: N_y]*(u_n[2:N_x+1, 1: N_y] - 2*u_n[1:N_x, 1: N_y] + u_n[0:N_x-1, 1: N_y]) + Cy2*q[1:N_x, 1: N_y]*(u_n[1:N_x, 2: N_y+1] -2*u_n[1:N_x, 1: N_y] + u_n[1:N_x, 0: N_y-1]) 
 
     #boundary conditions
     if bound_cond == 1:
@@ -80,7 +80,7 @@ if True:
         #calculation at step j+1  
         #without boundary cond           
         u_np1[1:N_x,1:N_y] = 2*u_n[1:N_x,1:N_y] - u_nm1[1:N_x,1:N_y] + Cx2*q[1:N_x, 1: N_y]*(u_n[2:N_x+1, 1: N_y] - 2*u_n[1:N_x, 1: N_y] + u_n[0:N_x-1, 1: N_y]) + Cy2*q[1:N_x, 1: N_y]*(u_n[1:N_x, 2: N_y+1] -2*u_n[1:N_x, 1: N_y] + u_n[1:N_x, 0: N_y-1]) 
-        
+        #bound conditions
         if bound_cond == 1:
             #Dirichlet bound cond
             u_np1[0,:] = 0
@@ -92,6 +92,35 @@ if True:
         u_n = u_np1.copy() 
         U[:,:,n] = u_n.copy()
     
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+
+
+def anim_2D(X, Y, L, pas_de_temps, pas_d_images, myzlim = (-0.15, 0.15)):
+    fig = plt.figure(figsize = (8, 8), facecolor = "white")
+    ax = fig.add_subplot(111, projection='3d')
+    SX,SY = np.meshgrid(X,Y)
+    surf = ax.plot_surface(SX, SY, L[:,:,0],cmap = plt.cm.RdBu_r)
+    ax.set_zlim(myzlim[0], myzlim[1])
+    
+    # animation function.  This is called sequentially
+    def update_surf(num):
+        ax.clear()
+        surf = ax.plot_surface(SX, SY, L[:,:,pas_d_images*num],cmap = plt.cm.viridis)
+        ax.set_zlim(myzlim[0], myzlim[1])
+        plt.tight_layout()
+        return surf
+        
+    # call the animator.  blit=True means only re-draw the parts that have changed.
+    anim = animation.FuncAnimation(fig, update_surf, frames = L.shape[2]//pas_d_images, interval = 50, blit = False)
+
+    return anim
+
+
+anim = anim_2D(X,Y,U,dt,5)
+plt.show()
+
 
 
 
