@@ -23,7 +23,7 @@ N_y = int(L_y/dy)
 Y = np.linspace(0,L_y,N_y+1) 
 
 L_t = 10
-dt = dt = 0.015  
+dt = 0.015  
 N_t = int(L_t/dt) 
 T = np.linspace(0,L_t,N_t+1)
 
