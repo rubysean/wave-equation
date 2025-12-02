@@ -11,3 +11,4 @@ we will use finite difference methond
 
 
 
+<img width="226" height="49" alt="image" src="https://github.com/user-attachments/assets/1d0852f8-408d-43c4-bdb3-adf74ecee766" />
