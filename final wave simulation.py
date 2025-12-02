@@ -22,15 +22,18 @@ dy = 0.05
 N_y = int(L_y/dy) 
 Y = np.linspace(0,L_y,N_y+1) 
 
-L_t = 10
-dt = 0.015  
-N_t = int(L_t/dt) 
-T = np.linspace(0,L_t,N_t+1)
+
 
 c = np.zeros((N_x+1,N_y+1), float)
 for i in range(0,N_x+1):
     for j in range(0,N_y+1):
         c[i,j] = celer(X[i],Y[j])
+
+L_t = 10
+dt = min(dx,dy)/np.max(c) * 0.5   # CFL 조건을 만족하도록 설정함. 0.5는 보정 계수 
+N_t = int(L_t/dt) 
+T = np.linspace(0,L_t,N_t+1)
+
 
 Cx2 = (dt/dx)**2
 Cy2 = (dt/dy)**2 
