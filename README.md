@@ -15,3 +15,5 @@ Neumann boundary condition
 
 
 <img width="159" height="48" alt="image" src="https://github.com/user-attachments/assets/09e06994-09c4-4418-9f06-e34c2c06cde6" />
+
+generally Cmax =1 if CFL > 1 simulation will diverge
