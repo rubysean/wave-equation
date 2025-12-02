@@ -11,3 +11,7 @@ we will use finite difference methond
 
 Neumann boundary condition
 <img width="226" height="49" alt="image" src="https://github.com/user-attachments/assets/1d0852f8-408d-43c4-bdb3-adf74ecee766" />
+
+
+
+<img width="159" height="48" alt="image" src="https://github.com/user-attachments/assets/09e06994-09c4-4418-9f06-e34c2c06cde6" />
