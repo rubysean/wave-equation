@@ -11,7 +11,7 @@ def celer(x,y):
     return 1
     
 
-bound_cond = 1
+bound_cond = int(input("경계 조건을 선택하세요 (1: Dirichlet, 2: Neumann): "))
 
 L_x = 5 
 dx = 0.05 
@@ -70,7 +70,14 @@ if bound_cond == 1:
     u_np1[-1,:] = 0
     u_np1[:,0] = 0
     u_np1[:,-1] = 0
-
+    
+elif bound_cond == 2:
+        #Neumann bound cond
+        u_np1[0,:] = u_np1[1,:]
+        u_np1[-1,:] = u_np1[-2,:]
+        u_np1[:,0] = u_np1[:,1]
+        u_np1[:,-1] = u_np1[:,-2]
+        
 u_nm1 = u_n.copy()
 u_n = u_np1.copy()
 U[:,:,1] = u_n.copy()
@@ -87,7 +94,14 @@ for n in range(2, N_t):
         u_np1[-1,:] = 0
         u_np1[:,0] = 0
         u_np1[:,-1] = 0
-        
+            
+    elif bound_cond == 2:
+            #Neumann bound cond
+            u_np1[0,:] = u_np1[1,:]
+            u_np1[-1,:] = u_np1[-2,:]
+            u_np1[:,0] = u_np1[:,1]
+            u_np1[:,-1] = u_np1[:,-2]
+            
     u_nm1 = u_n.copy()      
     u_n = u_np1.copy() 
     U[:,:,n] = u_n.copy()
