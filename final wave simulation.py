@@ -154,6 +154,7 @@ class WaveSimulation:
 
         
         SX,SY = np.meshgrid(self.X,self.Y)  # 3차원 공간을 만들기 위한 격자 구조 생성  
+        
         self.ax.set_zlim(-0.15, 0.15)   # z 축  고정
         
         def update_surf(num):  # num 은 funcanimation이 자동적으로 전달
@@ -180,8 +181,11 @@ class WaveSimulation:
     def gui(self):
         
         self.fig = plt.figure(figsize = (10, 9), facecolor = "white")     # 스크린 크기
-        self.ax = self.fig.add_subplot(111, projection='3d')   # 화면 위치 조정 및 3d 생성
-        plt.subplots_adjust(bottom=0.30 )
+        self.ax = self.fig.add_subplot(111, projection='3d')   # 화면 위치 조정 및 3d 
+        
+        self.ax.set_zlim(-0.15, 0.15)   # z 축  고정
+        
+        plt.subplots_adjust(bottom=0.30)
         self.ax.set_xlabel('X [m]')
         self.ax.set_ylabel('Y [m]')
         self.ax.set_zlabel('U [m]')
