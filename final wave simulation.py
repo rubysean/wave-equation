@@ -159,7 +159,11 @@ class WaveSimulation:
         def update_surf(num):  # num 은 funcanimation이 자동적으로 전달
             self.ax.clear()
             surf = self.ax.plot_surface(SX, SY, self.U[:,:,5*num],cmap = plt.cm.viridis)    # cmap 컬러
+            self.ax.set_title(f'Time = {5*num*self.dt:.3f} s')
             self.ax.set_zlim(-0.15, 0.15)  # 위에거 전부 삭제 되서 다시 설정
+            self.ax.set_xlabel('X [m]')
+            self.ax.set_ylabel('Y [m]')
+            self.ax.set_zlabel('U [m]')
             return surf
         
          
@@ -178,21 +182,25 @@ class WaveSimulation:
         self.fig = plt.figure(figsize = (10, 9), facecolor = "white")     # 스크린 크기
         self.ax = self.fig.add_subplot(111, projection='3d')   # 화면 위치 조정 및 3d 생성
         plt.subplots_adjust(bottom=0.30 )
-        
+        self.ax.set_xlabel('X [m]')
+        self.ax.set_ylabel('Y [m]')
+        self.ax.set_zlabel('U [m]')
         
         ax_boundary = plt.axes([0.1, 0.15, 0.15, 0.1],)
         ax_boundary.set_title('Boudnary', fontsize=10, fontweight='bold')
         self.radio_boundary = RadioButtons(ax_boundary, ('Dirichlet', 'Neumann'), active=1 if self.bound_cond == 2 else 0)
         self.radio_boundary.on_clicked(self.on_boundary_change)
 
-        ax_run = plt.axes([0.7, 0.15, 0.1, 0.04])
-        self.btn_run = Button(ax_run, 'Run Simulation', color='lightgoldenrodyellow', hovercolor='0.975')
+        ax_run = plt.axes([0.7, 0.15, 0.12, 0.06])
+        self.btn_run = Button(ax_run, 'Run Simulation', color="#EA6077", hovercolor="#6789E8")
         self.btn_run.on_clicked(self.on_run_click)
 
         ax_init_cond = plt.axes([0.3, 0.15, 0.15, 0.1],)
         ax_init_cond.set_title('Initial Condition', fontsize=10, fontweight='bold')     
         self.radio_init = RadioButtons(ax_init_cond, ('Gaussian', 'Double Source'), active=0 if self.init_type == 'gaussian' else 1)
         self.radio_init.on_clicked(self.on_init_change)
+        self.fig.suptitle('2D Wave Equation Simulator', fontsize=16, fontweight='bold')
+
 
 
     def on_boundary_change(self, label):
