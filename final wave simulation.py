@@ -39,21 +39,14 @@ class WaveSimulation:
         self.dt = min(self.dx,self.dy)/np.max(self.c) * 0.5   # CFL 조건을 만족하도록 설정함. 0.5는 보정 계수
         self.N_t = int(self.L_t/self.dt)
         self.T = np.linspace(0,self.L_t,self.N_t+1)
-    
-        
-      
         self.anim = None
 
-
-
-        
+    
     def V(self,x,y):
 
         return 0 
-
-    
+        
     def initial_condition(self, x, y):
-
 
         if self.init_type == 'gaussian':
             # 중심 가우시안
@@ -65,9 +58,6 @@ class WaveSimulation:
             g1 = 0.15*np.exp(-((x-1.5)**2/0.1 + (y-2.5)**2/0.1))
             g2 = 0.15*np.exp(-((x-3.5)**2/0.1 + (y-2.5)**2/0.1))
             return g1 + g2
-
-
-
 
     def loop_condition(self):
         self.Cx2 = (self.dt/self.dx)**2
@@ -97,15 +87,12 @@ class WaveSimulation:
 
         self.U[:,:,0] = self.u_n.copy()
 
-
-
+    
     def loop(self):
-
-
+        
         self.loop_condition()
         self.u_np1[1:self.N_x,1:self.N_y] = self.u_n[1:self.N_x,1:self.N_y] + self.dt*self.V_init[1:self.N_x,1:self.N_y] + 0.5 * self.Cx2*self.q[1:self.N_x, 1: self.N_y]*(self.u_n[2:self.N_x+1, 1: self.N_y] - 2*self.u_n[1:self.N_x, 1: self.N_y] + self.u_n[0:self.N_x-1, 1: self.N_y]) + self.Cy2*self.q[1:self.N_x, 1: self.N_y]*(self.u_n[1:self.N_x, 2: self.N_y+1] -2*self.u_n[1:self.N_x, 1:self.N_y] + self.u_n[1:self.N_x, 0: self.N_y-1]) 
         
-
         if self.bound_cond == 1:
             #Dirichlet bound cond
             self.u_np1[0,:] = 0
@@ -127,8 +114,7 @@ class WaveSimulation:
 
 
         for n in range(2, self.N_t):
-
-                   
+            
             self.u_np1[1:self.N_x,1:self.N_y] = 2*self.u_n[1:self.N_x,1:self.N_y] - self.u_nm1[1:self.N_x,1:self.N_y] + self.Cx2*self.q[1:self.N_x, 1: self.N_y]*(self.u_n[2:self.N_x+1, 1: self.N_y] - 2*self.u_n[1:self.N_x, 1: self.N_y] + self.u_n[0:self.N_x-1, 1: self.N_y]) + self.Cy2*self.q[1:self.N_x, 1: self.N_y]*(self.u_n[1:self.N_x, 2: self.N_y+1] -2*self.u_n[1:self.N_x, 1:self.N_y] + self.u_n[1:self.N_x, 0: self.N_y-1]) 
             #bound conditions
             if self.bound_cond == 1:
@@ -175,9 +161,6 @@ class WaveSimulation:
         self.anim = animation.FuncAnimation(self.fig, update_surf, frames = self.U.shape[2]//5, interval = 50)  # animation 호출
         plt.draw()
 
-
-
-
     def gui(self):
         
         self.fig = plt.figure(figsize = (10, 9), facecolor = "white")     # 스크린 크기
@@ -205,8 +188,6 @@ class WaveSimulation:
         self.radio_init.on_clicked(self.on_init_change)
         self.fig.suptitle('2D Wave Equation Simulator', fontsize=16, fontweight='bold')
 
-
-
     def on_boundary_change(self, label):
         
         if 'Dirichlet' in label:
@@ -215,9 +196,6 @@ class WaveSimulation:
         
         elif 'Neumann' in label:
             self.bound_cond = 2
-        
-        plt.draw()
-
 
     def on_init_change(self, label):
         if 'Gaussian' in label:
@@ -225,11 +203,7 @@ class WaveSimulation:
         
         elif 'Double' in label:
             self.init_type = 'double'
-        
-        plt.draw()
-
-
-
+    
     def on_run_click(self, event):
         self.loop()
         self.anim_2D()
