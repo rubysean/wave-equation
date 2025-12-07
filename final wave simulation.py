@@ -64,7 +64,7 @@ class WaveSimulation:
         self.Cy2 = (self.dt/self.dy)**2 
 
         ###########################################################
-        self.U = np.zeros((self.N_x+1,self.N_x+1,self.N_t+1),float) 
+        self.U = np.zeros((self.N_x+1,self.N_y+1,self.N_t+1),float) 
 
         self.u_nm1 = np.zeros((self.N_x+1,self.N_y+1),float)   #u_{i,j}^{n-1}
         self.u_n = np.zeros((self.N_x+1,self.N_y+1),float)     # u_{i,j}^{n}
