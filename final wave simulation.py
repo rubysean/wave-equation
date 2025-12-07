@@ -6,17 +6,15 @@ from matplotlib.widgets import Slider, Button, RadioButtons
 
 class WaveSimulation:
 
-    def __init__(self, c = 1.0, cond =2):
+    def __init__(self, cond =2):
 
         
-        self.c1 = c
+        
 
         self.bound_cond = cond  # 1: Dirichlet, 2: Neumanm
         self.init_type = 'gaussian'  # 초기 조건 타입
 
-        def celer(x,y):
-            return self.c1
-
+    
         
         self.L_x = 5.0
         self.dx = 0.05 
@@ -32,7 +30,7 @@ class WaveSimulation:
         self.c = np.zeros((self.N_x+1,self.N_y+1), float)
         for i in range(0,self.N_x+1):
             for j in range(0,self.N_y+1):
-                self.c[i,j] = celer(self.X[i],self.Y[j])
+                self.c[i,j] = self.celer(self.X[i],self.Y[j])
 
 
         self.L_t = 10.0
@@ -41,7 +39,9 @@ class WaveSimulation:
         self.T = np.linspace(0,self.L_t,self.N_t+1)
         self.anim = None
 
-    
+    def celer(self,x,y):
+            return 1
+
     def V(self,x,y):
 
         return 0 
@@ -214,6 +214,6 @@ class WaveSimulation:
 
     
 # 시뮬레이터 생성
-wave = WaveSimulation(c=1.0, cond=2)
+wave = WaveSimulation(cond=2)
 wave.gui()
 wave.run()
