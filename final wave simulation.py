@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-from matplotlib.widgets import Button, RadioButtons
+from matplotlib.widgets import Slider, Button, RadioButtons
 
 
 class WaveSimulation:
@@ -13,8 +13,7 @@ class WaveSimulation:
 
         self.bound_cond = cond  # 1: Dirichlet, 2: Neumanm
         self.init_type = 'gaussian'  # 초기 조건 타입
-
-    
+        self.init_celer = 'constant'  # 초기 파동 속도 타입    
         
         self.L_x = 5.0
         self.dx = 0.05 
@@ -40,7 +39,25 @@ class WaveSimulation:
         self.anim = None
 
     def celer(self,x,y):
-            return 1
+            
+        if self.init_celer == 'constant':
+
+            return 1.0   # 일정한 파동 속도
+        
+        elif self.init_celer == 'variable':
+
+
+            return x + y + 1  # 예: (x,y)에 따라 변화하는 파동 속도
+        
+    
+   
+    def update_wave_speed(self):
+        """파동 속도 배열을 재계산"""
+        self.c = np.zeros((self.N_x+1, self.N_y+1), float)
+        for i in range(0, self.N_x+1):
+            for j in range(0, self.N_y+1):
+                self.c[i,j] = self.celer(self.X[i], self.Y[j])
+
 
     def V(self,x,y):
 
@@ -178,6 +195,12 @@ class WaveSimulation:
         self.radio_boundary = RadioButtons(ax_boundary, ('Dirichlet', 'Neumann'), active=1 if self.bound_cond == 2 else 0)
         self.radio_boundary.on_clicked(self.on_boundary_change)
 
+        ax_celer = plt.axes([0.5, 0.15, 0.15, 0.1],)
+        ax_celer.set_title('Wave Speed', fontsize=10, fontweight='bold')
+        self.radio_celer = RadioButtons(ax_celer, ('Constant', 'Variable'), active=0 if self.init_celer == 'constant' else 1)
+        self.radio_celer.on_clicked(self.on_celer_change)
+
+
         ax_run = plt.axes([0.7, 0.15, 0.12, 0.06])
         self.btn_run = Button(ax_run, 'Run Simulation', color="#EA6077", hovercolor="#6789E8")
         self.btn_run.on_clicked(self.on_run_click)
@@ -186,6 +209,8 @@ class WaveSimulation:
         ax_init_cond.set_title('Initial Condition', fontsize=10, fontweight='bold')     
         self.radio_init = RadioButtons(ax_init_cond, ('Gaussian', 'Double Source'), active=0 if self.init_type == 'gaussian' else 1)
         self.radio_init.on_clicked(self.on_init_change)
+
+
         self.fig.suptitle('2D Wave Equation Simulator', fontsize=16, fontweight='bold')
 
     def on_boundary_change(self, label):
@@ -204,7 +229,25 @@ class WaveSimulation:
         elif 'Double' in label:
             self.init_type = 'double'
     
+    def on_celer_change(self, label):
+
+        if 'Constant' in label:
+            self.init_celer ='constant'
+        
+        elif 'Variable' in label:
+            self.init_celer ='variable'
+
+
+
+
     def on_run_click(self, event):
+
+
+        self.update_wave_speed()
+
+        self.dt = min(self.dx, self.dy)/np.max(self.c) * 0.5
+        self.N_t = int(self.L_t/self.dt)
+
         self.loop()
         self.anim_2D()
 
