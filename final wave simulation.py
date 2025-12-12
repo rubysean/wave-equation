@@ -151,8 +151,7 @@ class WaveSimulation:
             self.ax.set_zlim(-0.15, 0.15)  # 위에거 전부 삭제 되서 다시 설정
             self.ax.set_xlabel('X [m]')
             self.ax.set_ylabel('Y [m]')
-            self.ax.set_zlabel('U [m]')
-        
+            self.ax.set_zlabel('U [m]')        
         
             self.ax1.clear()
             cont = self.ax1.pcolormesh(SX, SY, self.U[:,:,5*num].T, cmap=plt.cm.viridis, vmin=-0.15, vmax=0.15, shading='auto')            
@@ -225,13 +224,13 @@ class WaveSimulation:
     def on_boundary_change(self, label):
         
         if 'Dirichlet' in label:
-            self.bound_cond = 1
-        
+            self.bound_cond = 1        
         
         elif 'Neumann' in label:
             self.bound_cond = 2
 
     def on_init_change(self, label):
+        
         if 'Gaussian' in label:
             self.init_type = 'gaussian'
         
@@ -242,19 +241,19 @@ class WaveSimulation:
 
         if 'Constant' in label:
             self.init_celer ='constant'
-        
+            
         elif 'Variable' in label:
             self.init_celer ='variable'
 
     def on_run_click(self, event):
-
+        
         self.update_wave_speed()
         self.dt = min(self.dx, self.dy)/np.max(self.c) * 0.5
         self.N_t = int(self.L_t/self.dt)
 
         self.loop()
         self.anim_2D()
-
+        
     def run(self):
         plt.show()
     
