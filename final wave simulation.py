@@ -154,7 +154,7 @@ class WaveSimulation:
             self.ax.set_zlabel('U [m]')        
         
             self.ax1.clear()
-            cont = self.ax1.pcolormesh(SX, SY, self.U[:,:,5*num].T, cmap=plt.cm.viridis)            
+            cont = self.ax1.pcolormesh(SX, SY, self.U[:,:,5*num].T, cmap=plt.cm.viridis, vmin=-0.15, vmax=0.15, shading='auto')            
             self.ax1.set_xlabel('X [m]')
             self.ax1.set_ylabel('Y [m]')
             self.ax1.set_title(f'Time = {5*num*self.dt:.3f} s')
@@ -163,7 +163,7 @@ class WaveSimulation:
 
          # 컬러바 추가 (한 번만)
         if not hasattr(self, 'cbar'):
-            dummy_mesh = self.ax1.pcolormesh(SX, SY, self.U[:,:,0].T, cmap=plt.cm.viridis)
+            dummy_mesh = self.ax1.pcolormesh(SX, SY, self.U[:,:,0].T, cmap=plt.cm.viridis,vmin=-0.15, vmax=0.15, shading='auto')
             self.cbar = self.fig.colorbar(dummy_mesh, ax=self.ax1, label='U [m]', fraction=0.046, pad=0.04)
 
         if self.anim is not None:
@@ -261,3 +261,4 @@ class WaveSimulation:
 wave = WaveSimulation(cond=2)
 wave.gui()
 wave.run()
+
